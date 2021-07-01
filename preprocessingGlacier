@@ -1,4 +1,4 @@
-function [I2_prepro] = preprocessing1(I1, I2)
+function I2_prepro = preprocess(I1, I2)
 %PREPROCESSING: 
 %   Preprocess images to facilitate change detection.
 %   Input: reference image, comparison image
