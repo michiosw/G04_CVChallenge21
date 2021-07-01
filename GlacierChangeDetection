@@ -8,7 +8,7 @@ for k=4:length(files)
     I1 = imread([path files(3).name]);
     I2 = imread([path files(k).name]);
 
-    [I2_prepro] = preprocessing(I1, I2)
+    [I2_prepro] = preprocessing1(I1, I2)
     
     %%Show Comparison
     
