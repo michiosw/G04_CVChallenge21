@@ -1,5 +1,4 @@
-%Preprocessing
-%Read in Pictures
+%Specify file path and name
 files = dir('Datasets\ColumbiaGlacier\')
 path = 'Datasets/ColumbiaGlacier/'
 %%%Change Detection for Timeline
@@ -9,14 +8,12 @@ for k=4:length(files)
     I1 = imread([path files(3).name]);
     I2 = imread([path files(k).name]);
 
-    [I1_prepro, I2_prepro] = preprocessing(I1, I2)
-    
-    figure, imshowpair(I1_prepro, I2_prepro,'montage')
+    [I2_prepro] = preprocessing(I1, I2)
     
     %%Show Comparison
     
     %Greyscale
-    ref = rgb2gray(I1_prepro)
+    ref = rgb2gray(I1)
     recovered = rgb2gray(I2_prepro)
     
     %Binarize Picture
