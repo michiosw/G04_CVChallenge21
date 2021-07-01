@@ -1,4 +1,4 @@
-function [I1_prepro, I2_prepro] = preprocessing(I1, I2)
+function [I2_prepro] = preprocessing(I1, I2)
 %PREPROCESSING: 
 %   Preprocess images to facilitate change detection.
 %   Input: reference image, comparison image
@@ -53,7 +53,6 @@ thetaRecovered = atan2(ss,sc)*180/pi;
 outputView = imref2d(size(I1));
 I2_rev  = imwarp(I2,tform,'OutputView',outputView);
 
-I1_prepro = I1;
 I2_prepro = I2_rev;
 
 end
