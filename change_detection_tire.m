@@ -7,12 +7,12 @@ file_struct = dir(path);
 file_name = cell(1,Nfile);
 
 % Read in Reference Image
-file_name{3} = file_struct(5).name;
+file_name{1} = file_struct(3).name;
 I1 = strcat(path, file_name{3});
 I1 = imread(I1);
 
 % Start Segmenting Images
-for i = 3:Nfile
+for i = 1:Nfile
     % Read in Images from Path
     file_name{i} = file_struct(i+2).name;
     I2 = strcat(path, file_name{i});
@@ -67,7 +67,7 @@ for i = 3:Nfile
     if i == 3
         ref = D{k};
     end
-    if i > 3
+    if i > 1
         k = D{P};
         %Overlay processed and reference image
         c = imfuse(ref, k, "ColorChannels","red");
@@ -75,7 +75,7 @@ for i = 3:Nfile
         dif = imfuse(I1,c, 'blend', 'Scaling', 'joint');
     end
     % Saving
-    if i == 3
+    if i == 1
         dif_name = erase(file_name{i}, '0a_');
         dif_name = erase(dif_name, '.jpg');
         filename = [dif_name, '_TireGraveyard.jpg'];
