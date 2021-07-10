@@ -80,6 +80,6 @@ for i = 1:Nfile
         figure, imshow(dif);
         %Saving
         dif_name = erase(file_name{i}, '.jpg');
-        imwrite(dif, [dif_name, '_Dubai_dif.jpg']);
+        imwrite(dif, [dif_name, '_Solar_dif.jpg']);
     end
 end
