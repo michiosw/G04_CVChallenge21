@@ -77,7 +77,6 @@ for i = 1:Nfile
         c = imfuse(ref1, k, "ColorChannels","red");
         %Difference Comparison by overlaying to original picture
         dif = imfuse(I1,c, 'blend', 'Scaling', 'joint');
-        figure, imshow(dif);
         %Saving
         dif_name = erase(file_name{i}, '.jpg');
         imwrite(dif, [dif_name, '_Solar_dif.jpg']);
