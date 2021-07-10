@@ -1,4 +1,4 @@
-function [I1_prepro, I2_prepro] = preprocessing_forest(I1, I2)
+function [I1_prepro, I2_prepro] = preprocessing_frauenkirche(i, I1, I2)
 %PREPROCESSING: 
 %   Preprocess images to facilitate change detection.
 %   Input: reference image, comparison image
@@ -7,44 +7,18 @@ function [I1_prepro, I2_prepro] = preprocessing_forest(I1, I2)
 %   Output: Preprocessed reference image, preprocessed comparison image
 %   (aligned in terms of scale/rotation/translation)
 
-% works for Columbia Glacier
-
-% Test 1: Image enhancement using dehazing technique
-
-%I1_deh = imreducehaze(I1);
-%I2_deh = imreducehaze(I2);
-
-% Test 1.2 Local Contrast
-%edgeThreshold = 0.4;
-%amount = 0.5;
-%I1_local = localcontrast(I1, edgeThreshold);
-%I2_local = localcontrast(I2, amount);
-
-% Test 2: Image Sharpening
+% 1. Image Sharpening
 
 I1_sharp = imsharpen(I1);
 I2_sharp = imsharpen(I2);
 
-% Test 3: Contrast adjustment
-
-%n = 2;  
-%I1double = im2double(I1); 
-%avg1 = mean2(I1double);
-%sigma1 = std2(I1double);
-%I2double = im2double(I2); 
-%avg2 = mean2(I2double);
-%sigma2 = std2(I2double);
-
-%I1_eq = imadjust(I1_sharp,[avg1-n*sigma1 avg1+n*sigma1],[]);
-%I2_eq = imadjust(I2_sharp,[avg2-n*sigma2 avg2+n*sigma2],[]);
-
-% 1. Histogram Equalization for Contrast Alignment
+% 2. Contrast adjustment
 
 I1_eq = histeq(I1_sharp);
 I2_eq = imhistmatch(I2_sharp,I1_eq);
 %I2_eq = histeq(I2_sharp);
 
-% 2. Flat-Field Correction (Gaussian Smoothing) to correct shading
+% 3. Flat-Field Correction (Gaussian Smoothing) to correct shading
 
 sigma = 30;
 
@@ -54,42 +28,37 @@ I2_flat = imflatfield(I2_eq,sigma);
 % 3. Reversing scale, rotation, and translation differences in the set using:
 % 3.1 Feature detection/matching (SURF) [1]
 
-I1_gray = rgb2gray(I1_flat);
-I2_gray = rgb2gray(I2_flat);
+if (i ~= 6) && (i ~= 9)
+    I1_gray = rgb2gray(I1_flat);
+    I2_gray = rgb2gray(I2_flat);
 
-ptsOriginal  = detectSURFFeatures(I1_gray, 'MetricThreshold', 100);
-ptsDistorted = detectSURFFeatures(I2_gray, 'MetricThreshold', 100);
+    ptsOriginal  = detectSURFFeatures(I1_gray, 'MetricThreshold', 100);
+    ptsDistorted = detectSURFFeatures(I2_gray, 'MetricThreshold', 100);
 
-[featuresOriginal,  validPtsOriginal]  = extractFeatures(I1_gray,  ptsOriginal);
-[featuresDistorted, validPtsDistorted] = extractFeatures(I2_gray, ptsDistorted);
+    [featuresOriginal,  validPtsOriginal]  = extractFeatures(I1_gray,  ptsOriginal);
+    [featuresDistorted, validPtsDistorted] = extractFeatures(I2_gray, ptsDistorted);
 
-indexPairs = matchFeatures(featuresOriginal, featuresDistorted);
+    indexPairs = matchFeatures(featuresOriginal, featuresDistorted);
 
-matchedOriginal  = validPtsOriginal(indexPairs(:,1));
-matchedDistorted = validPtsDistorted(indexPairs(:,2));
+    matchedOriginal  = validPtsOriginal(indexPairs(:,1));
+    matchedDistorted = validPtsDistorted(indexPairs(:,2));
 
-% 3.2 Robust estimation (MSAC) [2]
+    % 3.2 Robust estimation (MSAC) [2]
 
-[tform, inlierIdx, status] = estimateGeometricTransform2D(...
-    matchedDistorted, matchedOriginal, 'similarity', 'MaxDistance', 3, 'MaxNumTrials', 100000, 'Confidence', 99.999);
-inlierDistorted = matchedDistorted(inlierIdx, :);
-inlierOriginal  = matchedOriginal(inlierIdx, :);
+    tform = estimateGeometricTransform2D(...
+        matchedDistorted, matchedOriginal, 'similarity', 'MaxDistance', 3, 'MaxNumTrials', 100000, 'Confidence', 99.99);
+    
+elseif i == 6
+    tform = rotation(-26, -250, 50, 1.0);
+elseif i == 9
+    tform = rotation(-15, -120, 55, 1.0);
+end
+    
+outputView = imref2d(size(I1));
+I2_rev  = imwarp(I2,tform,'OutputView',outputView);
 
-Tinv  = tform.invert.T;
-
-ss = Tinv(2,1);
-sc = Tinv(1,1);
-scaleRecovered = sqrt(ss*ss + sc*sc);
-thetaRecovered = atan2(ss,sc)*180/pi;
-
-outputView = imref2d(size(I1_flat));
-I2_rev  = imwarp(I2_flat,tform,'OutputView',outputView);
-
-fprintf('Status: %d.\n', status);
-
-I1_prepro = I1_flat;
+I1_prepro = I1;
 I2_prepro = I2_rev;
-
 
 end
 
