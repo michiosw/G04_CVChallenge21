@@ -28,7 +28,12 @@ Open the main.m file and run it.
 - Frauenkirche
 - Kuwait
 - Dubai
-- 
+- Tire Graveyard
+- Upload you own dataset
+
+2. If you have uploaded your own dataset please specify the associated environment.
+- Forest
+- Glacier
 
 2. Select one visualisation mode.
 - Time-laps video: Intercut of the images in a time-lapse video
