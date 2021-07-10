@@ -7,42 +7,17 @@ function [I1_prepro, I2_prepro] = preprocessing_rainforest(i, I1, I2)
 %   Output: Preprocessed reference image, preprocessed comparison image
 %   (aligned in terms of scale/rotation/translation)
 
-% works for Columbia Glacier
 
-% Test 1: Image enhancement using dehazing technique
-
-%I1_deh = imreducehaze(I1);
-%I2_deh = imreducehaze(I2);
-
-% Test 1.2 Local Contrast
-%edgeThreshold = 0.4;
-%amount = 0.5;
-%I1_local = localcontrast(I1, edgeThreshold);
-%I2_local = localcontrast(I2, amount);
-
-% Test 2: Image Sharpening
+% 1: Image Sharpening
 
 I1_sharp = imsharpen(I1);
 I2_sharp = imsharpen(I2);
 
-% Test 3: Contrast adjustment
-
-%n = 2;  
-%I1double = im2double(I1); 
-%avg1 = mean2(I1double);
-%sigma1 = std2(I1double);
-%I2double = im2double(I2); 
-%avg2 = mean2(I2double);
-%sigma2 = std2(I2double);
-
-%I1_eq = imadjust(I1_sharp,[avg1-n*sigma1 avg1+n*sigma1],[]);
-%I2_eq = imadjust(I2_sharp,[avg2-n*sigma2 avg2+n*sigma2],[]);
-
-% 1. Histogram Equalization for Contrast Alignment
+% 2. Histogram Equalization for Contrast Alignment
 
 I1_eq = histeq(I1_sharp);
-I2_eq = imhistmatch(I2_sharp,I1_eq);
-%I2_eq = histeq(I2_sharp);
+I2_eq = histeq(I2_sharp);
+%I2_eq = imhistmatch(I2_sharp,I1_eq);
 
 % 2. Flat-Field Correction (Gaussian Smoothing) to correct shading
 
@@ -72,7 +47,7 @@ if i < 3
     % 3.2 Robust estimation (MSAC) [2]
 
     tform = estimateGeometricTransform2D(...
-        matchedDistorted, matchedOriginal, 'similarity', 'MaxDistance', 3, 'MaxNumTrials', 100000, 'Confidence', 99.9999);
+        matchedDistorted, matchedOriginal, 'similarity', 'MaxDistance', 3, 'MaxNumTrials', 100000, 'Confidence', 99.999);
 
 elseif i == 3
     tform = rotation(-35, -650, -10, 0.95);
@@ -86,10 +61,10 @@ elseif i == 7
     tform = rotation(17, -25, -119, 1.12);
 end
 
-outputView = imref2d(size(I1_flat));
-I2_rev  = imwarp(I2_flat,tform,'OutputView',outputView);
+outputView = imref2d(size(I1));
+I2_rev  = imwarp(I2,tform,'OutputView',outputView);
 
-I1_prepro = I1_flat;
+I1_prepro = I1;
 I2_prepro = I2_rev;
 
 
