@@ -22,7 +22,7 @@ Open the main.m file and run it.
 
 ## GUI
 
-1. Select one of the available Dataset or upload your own (at least 2 images).
+### 1. Select one of the available Dataset or upload your own (at least 2 images).
 - Brazilian Rainforest
 - Columbia Glacier
 - Frauenkirche
@@ -31,17 +31,17 @@ Open the main.m file and run it.
 - Tire Graveyard
 - Upload you own dataset
 
-2. If you have uploaded your own dataset please specify the associated environment.
+### 2. If you have uploaded your own dataset please specify the associated environment.
 - Forest
 - Glacier
 
-2. Select one visualisation mode.
+### 3. Select one visualisation mode.
 - Time-laps video: Intercut of the images in a time-lapse video
 - Interactive timeline: Mapping of the images over a timeline to compare the images of different years 
 - Direct comparison: Direct comparison between two images different point in time
      
-3. Press ''Start processing'' Button to start the programm.
+### 4. Press ''Start processing'' Button to start the programm.
 
-4. The results will be shown.
+### 5. The results will be shown.
 
-5. Press ''Try new dataset'' to select a new dataset and start again.
+### 6. Press ''Try new dataset'' to select a new dataset and start again.
