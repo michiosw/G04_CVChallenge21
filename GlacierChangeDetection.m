@@ -9,7 +9,7 @@ for k=4:length(files)
     I1 = imread([path files(3).name]);
     I2 = imread([path files(k).name]);
 
-    [I1_prepro, I2_prepro] = preprocess(I1, I2);
+    [I1_prepro, I2_prepro] = preprocess_glacier(I1, I2);
 
     %%Show Comparison
     
