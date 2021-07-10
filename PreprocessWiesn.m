@@ -58,13 +58,13 @@ I2_rev  = imwarp(I2,tform,'OutputView',outputView);
 I2_prepro = I2_rev;
 
 %Detect Black Pixel Mask
-    redChannel = I2_prepro(:, :, 1) ~= 0;
-    greenChannel = I2_prepro(:, :, 2) ~= 0;
-    blueChannel = I2_prepro(:, :, 3) ~= 0;
-    blackPixelImage = redChannel & greenChannel & blueChannel;
-    
-    %Put Black Pixel Mask over Reference Picture
-    I1_prepro = bsxfun(@times, I1, cast(blackPixelImage, 'like', I1));
+redChannel = I2_prepro(:, :, 1) ~= 0;
+greenChannel = I2_prepro(:, :, 2) ~= 0;
+blueChannel = I2_prepro(:, :, 3) ~= 0;
+blackPixelImage = redChannel & greenChannel & blueChannel;
+
+%Put Black Pixel Mask over Reference Picture
+I1_prepro = bsxfun(@times, I1, cast(blackPixelImage, 'like', I1));
 
 
 end
