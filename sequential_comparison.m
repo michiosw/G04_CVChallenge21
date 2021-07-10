@@ -40,12 +40,7 @@ switch(environment)
     case 'Frauenkirche'
         change_detection_frauenkirche(path);
     case 'Wiesn'
-        for i = 1:(num_images-1)
-            I2_name = images(i+1).name;
-            I2 = imread(I2_name);
-            [I1_prepro, I2_prepro] = preprocessing_wiesn(I1, I2);
-            change_detection_wiesn(i, I1_prepro, I2_prepro, I1_name, I2_name);
-        end
+        change_detection_wiesn(path);
     case 'Glacier'
         change_detection_glacier(path);
     case 'Dubai'
