@@ -49,22 +49,13 @@ matchedDistorted = validPtsDistorted(indexPairs(:,2));
 
 % 3.2 Robust estimation (MSAC) [2]
 
-[tform, inlierIdx] = estimateGeometricTransform2D(...
+tform = estimateGeometricTransform2D(...
     matchedDistorted, matchedOriginal, 'rigid', 'MaxDistance', 3, 'MaxNumTrials', 100000, 'Confidence', 99.99);
-inlierDistorted = matchedDistorted(inlierIdx, :);
-inlierOriginal  = matchedOriginal(inlierIdx, :);
 
-Tinv  = tform.invert.T;
+outputView = imref2d(size(I1));
+I2_rev  = imwarp(I2,tform,'OutputView',outputView);
 
-ss = Tinv(2,1);
-sc = Tinv(1,1);
-scaleRecovered = sqrt(ss*ss + sc*sc);
-thetaRecovered = atan2(ss,sc)*180/pi;
-
-outputView = imref2d(size(I1_flat));
-I2_rev  = imwarp(I2_flat,tform,'OutputView',outputView);
-
-I1_prepro = I1_flat;
+I1_prepro = I1;
 I2_prepro = I2_rev;
 
 end
