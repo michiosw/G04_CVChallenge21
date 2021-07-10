@@ -54,5 +54,4 @@ outputView = imref2d(size(I1));
 I2_rev  = imwarp(k,tform,'OutputView',outputView);
 
 I2_prepro = I2_rev;
-
 end
