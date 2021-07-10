@@ -68,7 +68,7 @@ for i = 1:Nfile
         ref1 = D{P};
         dif_name = erase(file_name{i}, '0a_');
         dif_name = erase(dif_name, '.jpg');
-        filename = [dif_name, '_Dubai.jpg'];
+        filename = [dif_name, '.jpg'];
         imwrite(I1, ['processedData/',filename]);
     end
     
@@ -91,7 +91,7 @@ for i = 1:Nfile
         
         % Saving
         dif_name = erase(file_name{i}, '.jpg');
-        filename = [dif_name, '_Dubai.jpg'];
+        filename = [dif_name, '.jpg'];
         imwrite(dif, ['processedData/',filename]);
     end
 end
