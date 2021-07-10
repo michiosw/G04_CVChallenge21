@@ -1,9 +1,9 @@
-function ref = change_detection_rainforest_ref(I1_prepro, I1_name)
+function ref = change_detection_rainforest_ref(I1, I1_name)
 %CHANGE_DETECTION_RAINFOREST Summary of this function goes here
 %   Detailed explanation goes here
 
 % PCA
-I1_pca = double(I1_prepro);
+I1_pca = double(I1);
 X1 = reshape(I1_pca, size(I1_pca,1)*size(I1_pca,2),3);
 coeff1 = pca(X1);
 I1transformed = X1*coeff1;
@@ -22,7 +22,7 @@ rgb_label = repmat(pixel_labels,[1 1 3]);
 % Extract Images with One Label Highlighted
 out = zeros(n,1);
 for k = 1:n
-    color = I1_prepro;
+    color = I1;
     color(rgb_label ~= k) = 0;
     idx=color==0;
     out(k)=sum(idx(:));
@@ -36,7 +36,7 @@ ref = D{P};
 dif_name = erase(I1_name, '0a_');
 dif_name = erase(dif_name, '.jpg');
 filename = [dif_name, '_Rainforest.jpg'];
-imwrite(I1_prepro, ['processedData/',filename]);
+imwrite(I1, ['processedData/',filename]);
 
 end
 

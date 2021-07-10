@@ -1,8 +1,8 @@
-function change_detection_rainforest(I1_prepro, I2_prepro, I2_name, ref)
+function change_detection_rainforest(I1, I2, I2_name, ref, i)
 %CHANGE_DETECTION_RAINFOREST Summary of this function goes here
 %   Detailed explanation goes here
 
-I2_pca = double(I2_prepro);
+I2_pca = double(I2);
 X2 = reshape(I2_pca,size(I2_pca,1)*size(I2_pca,2),3);
 coeff2 = pca(X2);
 I2transformed = X2*coeff2;
@@ -31,7 +31,7 @@ rgb_label = repmat(pixel_labels,[1 1 3]);
 % (Generates 3 Images)
 out = zeros(n,1);
 for k = 1:n
-    color = I2_prepro;
+    color = I2;
     color(rgb_label ~= k) = 0;
     idx=color==0;
     out(k)=sum(idx(:));
@@ -47,10 +47,12 @@ end
 % D{P=Index for Image with most zeros}
 
 k = D{P};
+
+[~, k] = preprocessing_rainforest(i, I1, I2, k);
 % Overlay processed and reference image
 c = imfuse(ref, k, "ColorChannels","red");
 % Difference Comparison by overlaying to original picture
-dif = imfuse(I1_prepro, c, 'blend', 'Scaling', 'joint');
+dif = imfuse(I1, c, 'blend', 'Scaling', 'joint');
 
 % Saving
 dif_name = erase(I2_name, '.jpg');
