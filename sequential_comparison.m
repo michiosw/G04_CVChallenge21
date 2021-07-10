@@ -22,7 +22,7 @@ switch(environment)
         for i = 1:(num_images-1)
             I2_name = images(i+1).name;
             I2 = imread(I2_name);
-            [I1_prepro, I2_prepro] = preprocessing_slow(i, I1, I2);
+            [I1_prepro, I2_prepro] = preprocessing_slow(I1, I2);
             if i == 1
                 ref = change_detection_tire_ref(I1_prepro, I1_name);
             end
@@ -52,6 +52,9 @@ switch(environment)
         change_detection_dubai(path);
     case 'Kuwait'
         change_detection_kuwait(path);
+    case 'Solar'
+        change_detection_solar(path);
+
 
 end
 
