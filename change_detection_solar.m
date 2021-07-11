@@ -68,8 +68,9 @@ for i = 1:Nfile
     %Set the first picture as reference picture
     if i == 1
         ref1 = D{P};
-    end    
-    if i > 1 
+        dif_name = erase(file_name{i}, '.jpg');
+        imwrite(I1, ['processedData/', dif_name, '.jpg']);
+    else
         k = D{P};
         %Overlay processed and reference image
         c = imfuse(ref1, k, "ColorChannels","red");
@@ -77,7 +78,7 @@ for i = 1:Nfile
         dif = imfuse(I1,c, 'blend', 'Scaling', 'joint');
         %Saving
         dif_name = erase(file_name{i}, '.jpg');
-        imwrite(dif, ['processedData/', dif_name, '_Solar_dif.jpg']);
+        imwrite(dif, ['processedData/', dif_name, '.jpg']);
     end
 end
 
