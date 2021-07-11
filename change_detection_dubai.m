@@ -70,18 +70,10 @@ for i = 1:Nfile
         dif_name = erase(dif_name, '.jpg');
         filename = [dif_name, '.jpg'];
         imwrite(I1, ['processedData/',filename]);
-    end
-    
-    %Set a new reference picture to keep rotation accurate
-    %     if i == 6
-    %         ref2 = I2_prepro;
-    %     end
-    
-    if i > 1
+    else
         k = D{P};
         %Set the correct reference picture
         I2_prepro = preprocessing_basic(I1,I2,k);
-        figure, imshow(I2_prepro)
         
         %Overlay processed and reference image
         c = imfuse(ref1, I2_prepro, "ColorChannels","red");
