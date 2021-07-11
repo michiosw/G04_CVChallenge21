@@ -56,7 +56,7 @@ dif = imfuse(I1, c, 'blend', 'Scaling', 'joint');
 
 % Saving
 dif_name = erase(I2_name, '.jpg');
-filename = [dif_name, '_Rainforest.jpg'];
+filename = [dif_name, '.jpg'];
 imwrite(dif, ['processedData/',filename]);
 
 end
