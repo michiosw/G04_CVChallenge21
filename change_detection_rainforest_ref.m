@@ -35,7 +35,7 @@ ref = D{P};
 % Saving
 dif_name = erase(I1_name, '0a_');
 dif_name = erase(dif_name, '.jpg');
-filename = [dif_name, '_Rainforest.jpg'];
+filename = [dif_name, '.jpg'];
 imwrite(I1, ['processedData/',filename]);
 
 end
