@@ -15,12 +15,15 @@ for i = 1:Nfile
     I2 = strcat(path, '\', file_name{i});
     I2 = imread(I2);
     %Comparison
-    if i > 1
+    if i == 1
+        dif_name = erase(file_name{i}, '.jpg');
+        imwrite(I1, [dif_name, '.jpg']);
+    else
         [I1_prepro, I2_prepro] = preprocessing_frauenkirche(i-1,I1,I2);
         c = imfuse(I1_prepro, I2_prepro, "ColorChannels","red");
         %Saving
         dif_name = erase(file_name{i}, '.jpg');
-        imwrite(c, [dif_name, '_Frauenkirche_dif.jpg']);
+        imwrite(c, [dif_name, '.jpg']);
     end
 
 end
