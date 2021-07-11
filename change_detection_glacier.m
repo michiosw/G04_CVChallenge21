@@ -26,7 +26,7 @@ for i = 2:Nfile
     if i == 2
         dif_name = erase(file_name{1}, '0a_');
         dif_name = erase(dif_name, '.jpg');
-        filename = [dif_name, '_Glacier.jpg'];
+        filename = [dif_name, '.jpg'];
         imwrite(I1, ['processedData/',filename]);
     end
     
@@ -38,7 +38,7 @@ for i = 2:Nfile
     dif = imfuse(I1_prepro,c,'blend','Scaling', 'joint');
     %Saving
     dif_name = erase(file_name{i}, '.jpg');
-    filename = [dif_name, '_Glacier.jpg'];
+    filename = [dif_name, '.jpg'];
     imwrite(dif, ['processedData/',filename]);
         
 end
